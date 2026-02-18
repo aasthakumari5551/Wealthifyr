@@ -2,6 +2,16 @@ import { useContext, useState } from "react";
 import { FinanceContext } from "../context/FinanceContext";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Format date to readable format
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric' 
+  });
+};
+
 export default function TransactionItem({ transaction, index }) {
   const { deleteTransaction, editTransaction } =
     useContext(FinanceContext);
@@ -140,7 +150,7 @@ export default function TransactionItem({ transaction, index }) {
               </p>
 
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                {transaction.category} • {transaction.date}
+                {transaction.category} • {formatDate(transaction.date)}
               </p>
             </div>
 
