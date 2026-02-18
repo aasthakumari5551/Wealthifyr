@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { FinanceContext } from "../context/FinanceContext";
 import {
   Chart as ChartJS,
@@ -27,6 +27,7 @@ ChartJS.register(
 
 export default function Charts() {
   const { transactions } = useContext(FinanceContext);
+  const [timePeriod, setTimePeriod] = useState("monthly"); // "7days", "30days", "monthly"
 
   const income = transactions
     .filter((t) => t.type === "income")
@@ -75,42 +76,113 @@ export default function Charts() {
 
   // Line chart data - group all transactions by date
   const getTransactionsByDate = () => {
-    const dateMap = {};
-    
-    // First, collect all unique dates from transactions
-    transactions.forEach((t) => {
-      const transDate = t.date;
-      if (!dateMap[transDate]) {
-        dateMap[transDate] = { income: 0, expense: 0 };
+    const now = new Date();
+    const labels = [];
+    const incomeData = [];
+    const expenseData = [];
+
+    if (timePeriod === "7days") {
+      // Last 7 days
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(now);
+        date.setDate(date.getDate() - i);
+        const dayLabel = `${date.getDate()}/${date.getMonth() + 1}`;
+        
+        labels.push(dayLabel);
+        
+        const dayIncome = transactions
+          .filter(t => {
+            const tDate = new Date(t.date);
+            return t.type === "income" && 
+                   tDate.getDate() === date.getDate() &&
+                   tDate.getMonth() === date.getMonth() &&
+                   tDate.getFullYear() === date.getFullYear();
+          })
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        const dayExpense = transactions
+          .filter(t => {
+            const tDate = new Date(t.date);
+            return t.type === "expense" && 
+                   tDate.getDate() === date.getDate() &&
+                   tDate.getMonth() === date.getMonth() &&
+                   tDate.getFullYear() === date.getFullYear();
+          })
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        incomeData.push(dayIncome);
+        expenseData.push(dayExpense);
       }
+    } else if (timePeriod === "30days") {
+      // Last 30 days - group by week
+      for (let i = 4; i >= 0; i--) {
+        const weekStart = new Date(now);
+        weekStart.setDate(weekStart.getDate() - (i * 6) - 5);
+        const weekEnd = new Date(now);
+        weekEnd.setDate(weekEnd.getDate() - (i * 6));
+        
+        const label = `${weekStart.getDate()}/${weekStart.getMonth() + 1}`;
+        labels.push(label);
+        
+        const weekIncome = transactions
+          .filter(t => {
+            const tDate = new Date(t.date);
+            return t.type === "income" && tDate >= weekStart && tDate <= weekEnd;
+          })
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        const weekExpense = transactions
+          .filter(t => {
+            const tDate = new Date(t.date);
+            return t.type === "expense" && tDate >= weekStart && tDate <= weekEnd;
+          })
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        incomeData.push(weekIncome);
+        expenseData.push(weekExpense);
+      }
+    } else {
+      // Monthly (Jan-Dec)
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const currentYear = now.getFullYear();
       
-      if (t.type === "income") {
-        dateMap[transDate].income += t.amount;
-      } else {
-        dateMap[transDate].expense += t.amount;
-      }
-    });
-    
-    // Sort dates
-    const sortedDates = Object.keys(dateMap).sort((a, b) => {
-      const [monthA, dayA, yearA] = a.split('/').map(Number);
-      const [monthB, dayB, yearB] = b.split('/').map(Number);
-      const dateA = new Date(yearA, monthA - 1, dayA);
-      const dateB = new Date(yearB, monthB - 1, dayB);
-      return dateA - dateB;
-    });
-    
-    return { days: sortedDates, dateMap };
+      months.forEach((month, index) => {
+        labels.push(month);
+        
+        const monthIncome = transactions
+          .filter(t => {
+            const tDate = new Date(t.date);
+            return t.type === "income" && 
+                   tDate.getMonth() === index &&
+                   tDate.getFullYear() === currentYear;
+          })
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        const monthExpense = transactions
+          .filter(t => {
+            const tDate = new Date(t.date);
+            return t.type === "expense" && 
+                   tDate.getMonth() === index &&
+                   tDate.getFullYear() === currentYear;
+          })
+          .reduce((sum, t) => sum + t.amount, 0);
+        
+        incomeData.push(monthIncome);
+        expenseData.push(monthExpense);
+      });
+    }
+
+    return { labels, incomeData, expenseData };
   };
 
-  const { days, dateMap } = getTransactionsByDate();
+  const { labels, incomeData, expenseData } = getTransactionsByDate();
 
   const lineData = {
-    labels: days.length > 0 ? days : ["No Data"],
+    labels: labels.length > 0 ? labels : ["No Data"],
     datasets: [
       {
         label: "Income",
-        data: days.length > 0 ? days.map(day => dateMap[day].income) : [0],
+        data: incomeData.length > 0 ? incomeData : [0],
         borderColor: document.documentElement.classList.contains("dark") ? "#A3E635" : "#10b981",
         backgroundColor: document.documentElement.classList.contains("dark") ? "rgba(163, 230, 53, 0.1)" : "rgba(16, 185, 129, 0.1)",
         borderWidth: 3,
@@ -119,7 +191,7 @@ export default function Charts() {
       },
       {
         label: "Expense",
-        data: days.length > 0 ? days.map(day => dateMap[day].expense) : [0],
+        data: expenseData.length > 0 ? expenseData : [0],
         borderColor: "#ef4444",
         backgroundColor: "rgba(239, 68, 68, 0.1)",
         borderWidth: 3,
@@ -211,10 +283,47 @@ export default function Charts() {
         whileHover={{ scale: 1.01 }}
         className="transition-all"
       >
-        <h3 className="text-xl font-bold mb-6 text-gray-800 dark:text-white flex items-center gap-2">
-          <span className="text-2xl">📈</span>
-          Transaction Trend
-        </h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+            <span className="text-2xl">📈</span>
+            Transaction Trend
+          </h3>
+          
+          {/* Time Period Filter Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => setTimePeriod("7days")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                timePeriod === "7days"
+                  ? "bg-emerald-500 text-white shadow-lg"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+              }`}
+            >
+              Last 7 Days
+            </button>
+            <button
+              onClick={() => setTimePeriod("30days")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                timePeriod === "30days"
+                  ? "bg-emerald-500 text-white shadow-lg"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+              }`}
+            >
+              Last 30 Days
+            </button>
+            <button
+              onClick={() => setTimePeriod("monthly")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                timePeriod === "monthly"
+                  ? "bg-emerald-500 text-white shadow-lg"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+              }`}
+            >
+              Monthly
+            </button>
+          </div>
+        </div>
+        
         <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-8 rounded-2xl shadow-lg">
           <Line data={lineData} options={commonOptions} />
         </div>
