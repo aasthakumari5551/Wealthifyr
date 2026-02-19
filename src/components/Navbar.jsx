@@ -40,9 +40,9 @@ export default function Navbar({ onAddTransaction }) {
 
   return (
     <div className="sticky top-0 z-50 py-6 px-6">
-      {/* Axio-style Pill Navbar */}
+      {/* Enhanced Pill Navbar */}
       <motion.div
-        className="max-w-7xl mx-auto bg-gray-600/90 dark:bg-gray-700/90 backdrop-blur-xl rounded-full px-8 py-4 flex justify-between items-center shadow-2xl"
+        className="max-w-7xl mx-auto bg-white/90 dark:bg-[#1A1F2E]/95 backdrop-blur-xl rounded-full px-8 py-4 flex justify-between items-center shadow-2xl border border-gray-200/50 dark:border-white/10"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 100 }}
@@ -50,7 +50,7 @@ export default function Navbar({ onAddTransaction }) {
         {/* Logo */}
         <motion.h1
           onClick={() => navigate("/dashboard")}
-          className="text-2xl font-extrabold tracking-tight text-[#A3E635] cursor-pointer"
+          className="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#A3E635] to-[#8ec42a] cursor-pointer"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -60,7 +60,7 @@ export default function Navbar({ onAddTransaction }) {
         {/* Mobile Menu Button */}
         <motion.button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden w-10 h-10 flex items-center justify-center text-white hover:text-[#A3E635] transition-all"
+          className="md:hidden w-10 h-10 flex items-center justify-center text-gray-800 dark:text-white hover:text-[#A3E635] transition-all"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -72,7 +72,7 @@ export default function Navbar({ onAddTransaction }) {
 
           <motion.button
             onClick={() => navigate("/dashboard")}
-            className="text-white hover:text-[#A3E635] transition-all font-bold"
+            className="text-gray-700 dark:text-white hover:text-[#A3E635] transition-all font-bold"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -81,7 +81,7 @@ export default function Navbar({ onAddTransaction }) {
 
           <motion.button
             onClick={scrollToTransactions}
-            className="text-white hover:text-[#A3E635] transition-all font-bold"
+            className="text-gray-700 dark:text-white hover:text-[#A3E635] transition-all font-bold"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -102,7 +102,7 @@ export default function Navbar({ onAddTransaction }) {
             <AnimatePresence>
               {profileOpen && (
                 <motion.div
-                  className="absolute right-0 mt-3 w-48 bg-gray-700/95 dark:bg-[#1A1F2E] backdrop-blur-xl rounded-xl shadow-2xl border border-white/10 p-2 overflow-hidden"
+                  className="absolute right-0 mt-3 w-48 bg-white/95 dark:bg-[#1A1F2E] backdrop-blur-xl rounded-xl shadow-2xl border border-gray-200/50 dark:border-white/10 p-2 overflow-hidden"
                   variants={dropdownVariants}
                   initial="hidden"
                   animate="visible"
@@ -113,7 +113,7 @@ export default function Navbar({ onAddTransaction }) {
                       toggleTheme();
                       setProfileOpen(false);
                     }}
-                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-all text-white hover:text-[#A3E635] font-medium flex items-center gap-2"
+                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-all text-gray-800 dark:text-white hover:text-[#A3E635] font-medium flex items-center gap-2"
                     whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -126,7 +126,7 @@ export default function Navbar({ onAddTransaction }) {
                       handleLogout();
                       setProfileOpen(false);
                     }}
-                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 transition-all text-white hover:text-red-400 font-medium flex items-center gap-2"
+                    className="w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-white/10 transition-all text-gray-800 dark:text-white hover:text-red-400 font-medium flex items-center gap-2"
                     whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -144,7 +144,7 @@ export default function Navbar({ onAddTransaction }) {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              className="absolute top-full left-6 right-6 mt-3 md:hidden bg-gray-600/95 dark:bg-gray-700/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10"
+              className="absolute top-full left-6 right-6 mt-3 md:hidden bg-white/95 dark:bg-[#1A1F2E]/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 dark:border-white/10"
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}

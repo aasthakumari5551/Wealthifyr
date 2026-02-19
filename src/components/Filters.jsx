@@ -34,7 +34,7 @@ export default function Filters({ setFiltered }) {
         <div className="flex-1 min-w-[200px]">
           <input
             type="text"
-            placeholder="🔍 Search transactions..."
+            placeholder="Search transactions..."
             className="flex-1 w-full p-4 bg-gray-50 dark:bg-[#0A0E1A] border-2 border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-[#A3E635] transition-all duration-300 hover:border-indigo-500/50 dark:hover:border-[#A3E635]/50 focus:scale-[1.01]"
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -44,9 +44,9 @@ export default function Filters({ setFiltered }) {
           className="p-4 bg-gray-50 dark:bg-[#0A0E1A] border-2 border-gray-300 dark:border-white/10 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-[#A3E635] transition-all duration-300 min-w-[160px] hover:border-indigo-500/50 dark:hover:border-[#A3E635]/50 cursor-pointer font-medium"
           onChange={(e) => setType(e.target.value)}
         >
-          <option value="all" className="bg-white dark:bg-[#0A0E1A] text-gray-900 dark:text-white">📊 All Types</option>
-          <option value="income" className="bg-white dark:bg-[#0A0E1A] text-gray-900 dark:text-white">📈 Income</option>
-          <option value="expense" className="bg-white dark:bg-[#0A0E1A] text-gray-900 dark:text-white">📉 Expense</option>
+          <option value="all" className="bg-white dark:bg-[#0A0E1A] text-gray-900 dark:text-white">All Types</option>
+          <option value="income" className="bg-white dark:bg-[#0A0E1A] text-gray-900 dark:text-white">Income</option>
+          <option value="expense" className="bg-white dark:bg-[#0A0E1A] text-gray-900 dark:text-white">Expense</option>
         </select>
 
         <motion.button

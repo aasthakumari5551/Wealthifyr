@@ -94,7 +94,7 @@ export default function Login() {
                   : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10"
               }`}
             >
-              Login
+              Sign In
             </button>
             <button
               onClick={() => setIsSignUp(true)}
@@ -156,7 +156,7 @@ export default function Login() {
                 onClick={() => setIsSignUp(!isSignUp)}
                 className="ml-2 text-[#A3E635] hover:text-[#A3E635]/80 font-semibold transition-colors"
               >
-                {isSignUp ? "Login" : "Sign Up"}
+                {isSignUp ? "Sign In" : "Sign Up"}
               </button>
             </p>
           </div>
@@ -169,17 +169,14 @@ export default function Login() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.5 }}
         >
-          <div className="text-gray-600 dark:text-gray-400">
-            <div className="text-2xl mb-1">💰</div>
-            <p className="text-xs font-medium">Track Income</p>
+          <div className="text-gray-700 dark:text-gray-300">
+            <p className="text-sm font-bold">Track Income</p>
           </div>
-          <div className="text-gray-600 dark:text-gray-400">
-            <div className="text-2xl mb-1">📊</div>
-            <p className="text-xs font-medium">Analytics</p>
+          <div className="text-gray-700 dark:text-gray-300">
+            <p className="text-sm font-bold">Analytics</p>
           </div>
-          <div className="text-gray-600 dark:text-gray-400">
-            <div className="text-2xl mb-1">🎯</div>
-            <p className="text-xs font-medium">Goals</p>
+          <div className="text-gray-700 dark:text-gray-300">
+            <p className="text-sm font-bold">Goals</p>
           </div>
         </motion.div>
       </div>

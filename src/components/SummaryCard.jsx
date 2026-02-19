@@ -31,18 +31,6 @@ export default function SummaryCard({ title, amount, index = 0 }) {
     return "text-indigo-500 dark:text-[#A3E635]"; // Balance
   };
 
-  const getIcon = () => {
-    if (title === "Income") return "📈";
-    if (title === "Expense") return "📉";
-    return "💰";
-  };
-
-  const getIconBg = () => {
-    if (title === "Income") return "bg-emerald-100 dark:bg-emerald-500/20";
-    if (title === "Expense") return "bg-red-100 dark:bg-red-500/20";
-    return "bg-indigo-100 dark:bg-[#A3E635]/20";
-  };
-
   const cardVariants = {
     hidden: { opacity: 0, y: 50, scale: 0.9 },
     visible: {
@@ -61,10 +49,10 @@ export default function SummaryCard({ title, amount, index = 0 }) {
   return (
     <motion.div 
       className="
-        bg-gradient-to-br from-white to-gray-50
+        bg-white
         dark:from-[#1A1F2E] dark:to-[#1A1F2E]
         rounded-2xl
-        p-8
+        p-6 sm:p-8
         shadow-xl shadow-gray-200/50
         dark:shadow-none
         transition-all
@@ -72,7 +60,7 @@ export default function SummaryCard({ title, amount, index = 0 }) {
         hover:shadow-2xl hover:shadow-gray-300/50
         dark:hover:shadow-none
         hover:-translate-y-2
-        border border-gray-200/50
+        border border-gray-200
         dark:border-white/5
         overflow-hidden
         relative
@@ -83,28 +71,14 @@ export default function SummaryCard({ title, amount, index = 0 }) {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.98 }}
     >
-      {/* Icon at top-right */}
-      <motion.div 
-        className={`absolute top-6 right-6 w-14 h-14 rounded-full flex items-center justify-center ${getIconBg()}`}
-        animate={{ 
-          rotate: [0, 5, -5, 0],
-          scale: [1, 1.05, 1]
-        }}
-        transition={{ 
-          duration: 3,
-          repeat: Infinity,
-          repeatType: "reverse"
-        }}
-      >
-        <span className="text-3xl">{getIcon()}</span>
-      </motion.div>
+      {/* Icon removed for cleaner UI */}
 
-      <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 uppercase tracking-wide">
+      <p className="text-sm font-semibold text-gray-700 dark:text-gray-400 mb-3 uppercase tracking-wide">
         {title}
       </p>
 
       <motion.h2 
-        className={`text-4xl font-bold mt-2 ${getAccent()}`}
+        className={`text-3xl sm:text-4xl font-bold mt-2 ${getAccent()}`}
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.3 + index * 0.1, type: "spring" }}

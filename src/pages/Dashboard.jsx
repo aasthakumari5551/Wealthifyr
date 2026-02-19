@@ -47,40 +47,40 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-[#0A0E1A] dark:via-[#0f1420] dark:to-[#0A0E1A] transition-colors duration-300 relative overflow-hidden">
+    <div className="min-h-screen bg-white dark:from-[#0A0E1A] dark:via-[#0f1420] dark:to-[#0A0E1A] dark:bg-gradient-to-br transition-colors duration-300 relative overflow-hidden">
       {/* Animated Background Blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 -left-10 w-96 h-96 bg-purple-300 dark:bg-[#A3E635] rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
-        <div className="absolute top-40 -right-10 w-96 h-96 bg-yellow-300 dark:bg-purple-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-20 left-40 w-96 h-96 bg-pink-300 dark:bg-blue-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50 sm:opacity-100">
+        <div className="absolute top-20 -left-10 w-96 h-96 bg-purple-300 dark:bg-[#A3E635] rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 sm:opacity-20 dark:opacity-10 animate-blob"></div>
+        <div className="absolute top-40 -right-10 w-96 h-96 bg-yellow-300 dark:bg-purple-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 sm:opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-20 left-40 w-96 h-96 bg-pink-300 dark:bg-blue-500 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-10 sm:opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
       </div>
 
       <Navbar onAddTransaction={() => setIsModalOpen(true)} />
 
       <motion.div 
-        className="max-w-6xl mx-auto px-6 py-12 space-y-12 pb-28 relative z-10"
+        className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-8 sm:space-y-12 pb-28 relative z-10"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Hero Welcome Section */}
         <motion.div 
-          className="text-center mb-8"
+          className="text-center mb-6 sm:mb-8 relative z-10"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.h1 
-            className="text-4xl md:text-5xl font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <span className="text-gray-800 dark:text-white">Track spends.</span>{' '}
+            <span className="text-gray-900 dark:text-white">Track spends.</span>{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A3E635] via-[#8ec42a] to-[#A3E635] animate-gradient">Save smart.</span>
           </motion.h1>
           <motion.p 
-            className="text-gray-600 dark:text-gray-400 text-lg"
+            className="text-gray-700 dark:text-gray-400 text-base sm:text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
@@ -91,7 +91,7 @@ export default function Dashboard() {
 
         {/* Summary Cards */}
         <motion.div 
-          className="grid md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
           variants={itemVariants}
         >
           <SummaryCard title="Balance" amount={balance} index={0} />
@@ -106,7 +106,7 @@ export default function Dashboard() {
         >
           <div className="flex items-center justify-between px-2">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-              💰 Budget Goals
+              Budget Goals
             </h2>
             <motion.button
               onClick={() => setIsBudgetModalOpen(true)}
@@ -123,7 +123,7 @@ export default function Dashboard() {
               className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-500/10 dark:to-indigo-500/10 border-2 border-dashed border-blue-300 dark:border-blue-500/30 rounded-2xl p-12 text-center"
               variants={itemVariants}
             >
-              <div className="text-6xl mb-4">💡</div>
+              <div className="text-6xl mb-4"></div>
               <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
                 No Budgets Set Yet
               </h3>
@@ -150,7 +150,7 @@ export default function Dashboard() {
 
         {/* Charts */}
         <motion.div 
-          className="bg-white/95 dark:bg-[#1A1F2E] rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none p-8 transition-all duration-300 hover:shadow-2xl dark:hover:shadow-none border border-gray-200/50 dark:border-white/5"
+          className="bg-white/95 dark:bg-[#1A1F2E] rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none p-4 sm:p-6 md:p-8 transition-all duration-300 hover:shadow-2xl dark:hover:shadow-none border border-gray-200/50 dark:border-white/5"
           variants={itemVariants}
         >
           <Charts />
@@ -159,10 +159,10 @@ export default function Dashboard() {
         {/* Transactions */}
         <motion.div 
           id="transactions-section"
-          className="space-y-6"
+          className="space-y-4 sm:space-y-6"
           variants={itemVariants}
         >
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white px-2">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white px-2">
             Recent Transactions
           </h2>
           <TransactionList />
