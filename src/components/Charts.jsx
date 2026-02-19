@@ -203,6 +203,7 @@ export default function Charts() {
 
   const commonOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 1200,
       easing: 'easeInOutQuart',
@@ -211,13 +212,15 @@ export default function Charts() {
     },
     plugins: {
       legend: {
+        position: 'top',
         labels: {
           color: textColor,
           font: {
-            size: 14,
+            size: window.innerWidth < 640 ? 11 : 14,
             weight: '500',
           },
-          padding: 20,
+          padding: window.innerWidth < 640 ? 8 : 12,
+          boxWidth: window.innerWidth < 640 ? 30 : 40,
         },
       },
     },
@@ -283,37 +286,36 @@ export default function Charts() {
         whileHover={{ scale: 1.01 }}
         className="transition-all"
       >
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-            <span className="text-2xl">📈</span>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-white">
             Transaction Trend
           </h3>
           
           {/* Time Period Filter Buttons */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => setTimePeriod("7days")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                 timePeriod === "7days"
                   ? "bg-emerald-500 text-white shadow-lg"
                   : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
             >
-              Last 7 Days
+              7 Days
             </button>
             <button
               onClick={() => setTimePeriod("30days")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                 timePeriod === "30days"
                   ? "bg-emerald-500 text-white shadow-lg"
                   : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
             >
-              Last 30 Days
+              30 Days
             </button>
             <button
               onClick={() => setTimePeriod("monthly")}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                 timePeriod === "monthly"
                   ? "bg-emerald-500 text-white shadow-lg"
                   : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
@@ -324,24 +326,27 @@ export default function Charts() {
           </div>
         </div>
         
-        <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-8 rounded-2xl shadow-lg">
-          <Line data={lineData} options={commonOptions} />
+        <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-4 sm:p-6 md:p-8 rounded-2xl shadow-lg">
+          <div className="w-full h-64 sm:h-72 md:h-80">
+            <Line data={lineData} options={commonOptions} />
+          </div>
         </div>
       </motion.div>
 
       {/* Bar and Pie Charts - Side by Side */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <motion.div
           variants={chartVariants}
           whileHover={{ scale: 1.02 }}
           className="transition-all"
         >
-          <h3 className="text-xl font-bold mb-6 text-gray-800 dark:text-white flex items-center gap-2">
-            <span className="text-2xl">📊</span>
+          <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-white">
             Income vs Expense
           </h3>
-          <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-6 rounded-2xl shadow-lg">
-            <Bar data={barData} options={commonOptions} />
+          <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-4 sm:p-6 rounded-2xl shadow-lg">
+            <div className="w-full h-64 sm:h-72 md:h-80">
+              <Bar data={barData} options={commonOptions} />
+            </div>
           </div>
         </motion.div>
 
@@ -350,12 +355,13 @@ export default function Charts() {
           whileHover={{ scale: 1.02 }}
           className="transition-all"
         >
-          <h3 className="text-xl font-bold mb-6 text-gray-800 dark:text-white flex items-center gap-2">
-            <span className="text-2xl">🥧</span>
+          <h3 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-white">
             Distribution
           </h3>
-          <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-6 rounded-2xl shadow-lg">
-            <Pie data={pieData} options={commonOptions} />
+          <div className="bg-gray-50 dark:bg-[#1A1F2E] border border-gray-200 dark:border-white/5 p-4 sm:p-6 rounded-2xl shadow-lg">
+            <div className="w-full h-64 sm:h-72 md:h-80">
+              <Pie data={pieData} options={commonOptions} />
+            </div>
           </div>
         </motion.div>
       </div>

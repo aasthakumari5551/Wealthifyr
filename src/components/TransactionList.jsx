@@ -52,22 +52,8 @@ export default function TransactionList() {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3 }}
             >
-              <motion.div 
-                className="text-7xl mb-6"
-                animate={{ 
-                  y: [0, -10, 0],
-                  rotate: [0, 5, -5, 0]
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  repeatType: "reverse"
-                }}
-              >
-                💸
-              </motion.div>
-              <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">No transactions yet</h3>
-              <p className="text-gray-500 dark:text-gray-400">Add your first transaction to get started!</p>
+                <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3">No transactions yet</h3>
+                <p className="text-gray-500 dark:text-gray-400">Add your first transaction to get started!</p>
             </motion.div>
           ) : (
             <motion.div 
